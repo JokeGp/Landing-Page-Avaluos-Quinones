@@ -10,6 +10,31 @@ body {
     line-height: 1.6;
 }
 
+/* Animaciones para scroll */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 /* Navbar */
 .navbar {
     display: grid;
@@ -21,6 +46,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: box-shadow 0.3s ease;
 }
 /* Botón hamburguesa (escondido en desktop) */
 .hamburger {
@@ -56,13 +82,31 @@ body {
     gap: 2rem;
     list-style: none;
 }
-
 .nav-menu a {
     text-decoration: none;
     color: #666;
     font-weight: 500;
-    transition: color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
 }
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #00BCD4;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+    width: 100%;
+}
+
 
 .nav-menu a:hover,
 .nav-menu a.active {
@@ -137,13 +181,38 @@ body {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn-primary:hover {
     background: #0097A7;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,188,212,0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
 }
 
 
@@ -189,6 +258,13 @@ body {
     padding: 2rem;
     border-radius: 10px;
     border-left: 4px solid #00BCD4;
+    height: fit-content;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transform: translateY(-5px);
 }
 
 .card-icon {
@@ -263,6 +339,40 @@ body {
     border: none;
     border-radius: 5px;
     width: 262px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.solicitude-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.solicitude-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.solicitude-btn:hover {
+    background: #0097A7;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,188,212,0.4);
+}
+
+.solicitude-btn:active {
+    transform: translateY(0);
 }
 
 .carousel-container {
@@ -282,7 +392,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0; /* Evita que las cards se compriman */
     max-width: 300px;
     min-height: 198px;
@@ -319,7 +429,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     font-size: 1.2rem;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     background-color: transparent;
 }
 
@@ -494,6 +604,83 @@ body {
     color: #666;
     line-height: 1.8;
     margin-bottom: 1rem;
+}
+
+/* Contacto Section */
+.contacto {
+    padding: 4rem 5%;
+    background-color: #f5f5f5;
+}
+
+.contacto h2 {
+    font-size: 2.5rem;
+    color: #00838F;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contacto-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contacto-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contacto-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,188,212,0.2);
+}
+
+.contacto-icon {
+    color: #00BCD4;
+    flex-shrink: 0;
+}
+
+.contacto-info h3 {
+    color: #00838F;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.contacto-info a {
+    color: #666;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.contacto-info a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #00BCD4;
+    transition: width 0.3s ease;
+}
+
+.contacto-info a:hover::after {
+    width: 100%;
+}
+
+.contacto-info a:hover {
+    color: #00BCD4;
+    transform: translateX(3px);
 }
 
 
@@ -701,7 +888,7 @@ footer {
         align-self: flex-start !important;
     }
     .solicitude-btn{
-            width: 158px;
+        width: 182px;
         align-self: flex-start;
     }
     .carousel-btn{
@@ -726,4 +913,33 @@ footer {
     height: auto;
     display: block;
 }
+
+ .contacto-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contacto h2 {
+        font-size: 2rem;
+    }
+
+    .contacto-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 2rem;
+    }
+}
+
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .contacto-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contacto-item:last-child {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
 }

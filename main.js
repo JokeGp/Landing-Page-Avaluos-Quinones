@@ -202,3 +202,71 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
+
+// ====================================================================================
+// =======================  ANIMACIONES AL HACER SCROLL  ==============================
+// ====================================================================================
+
+const observerOptions = {
+    threshold: 0.15,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            // Añadir delay escalonado para evitar que todo aparezca al mismo tiempo
+            setTimeout(() => {
+                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+            }, index * 100);
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+// Observar elementos para animación con delays diferentes por sección
+const animateSection = (selector, baseDelay = 0) => {
+    document.querySelectorAll(selector).forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.animationDelay = `${baseDelay + (index * 0.1)}s`;
+        observer.observe(el);
+    });
+};
+
+// Animar diferentes secciones con delays escalonados
+animateSection('.card');
+animateSection('.service-card', 0.1);
+animateSection('.contacto-item', 0.15);
+
+// ====================================================================================
+// =======================  NAVBAR SCROLL EFFECT  =====================================
+// ====================================================================================
+
+let lastScroll = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 100) {
+        navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.15)';
+    } else {
+        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+    }
+    
+    lastScroll = currentScroll;
+});
+
+// ====================================================================================
+// =======================  PARALLAX SUAVE EN HERO  ===================================
+// ====================================================================================
+
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero');
+    if (hero && scrolled < window.innerHeight) {
+        hero.style.transform = `translateY(${scrolled * 0.15}px)`;
+        hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.3;
+    }
+});
+
